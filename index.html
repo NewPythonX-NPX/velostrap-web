@@ -14,9 +14,8 @@
         }
 
         body {
-            /* Sunset lofi chill background with a dark overlay */
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.8)), 
-                        url('https://images.unsplash.com/photo-1558486012-817176f84c6d?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.8)),
+                url('https://images.unsplash.com/photo-1558486012-817176f84c6d?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
             display: flex;
@@ -25,7 +24,7 @@
             justify-content: center;
             min-height: 100vh;
             text-align: center;
-            overflow: hidden; 
+            overflow: hidden;
         }
 
         .container {
@@ -48,7 +47,7 @@
             color: #cbd5e1;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         h1 {
@@ -56,7 +55,7 @@
             font-weight: 800;
             margin-bottom: 1rem;
             letter-spacing: -2px;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
         }
 
         .desc {
@@ -64,7 +63,7 @@
             color: #e2e8f0;
             margin-bottom: 2.5rem;
             line-height: 1.6;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
         }
 
         .btn-group {
@@ -107,7 +106,7 @@
             border-radius: 50px;
             display: inline-block;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .manual-link {
@@ -117,7 +116,7 @@
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.3s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
 
         .manual-link:hover {
@@ -132,29 +131,28 @@
         <p class="eyebrow">Official Launcher Download</p>
         <h1>VeloStrap</h1>
         <p class="desc">Get the newest VeloStrap release instantly. If your browser blocks the direct file, use the manual download below.</p>
-        
+
         <div class="btn-group">
-            <button class="btn-main" id="downloadBtn">Download VeloStrap</button>
-            
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2L6jQW8ZJptC2plbYJlgtJ?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <button class="btn-main" id="downloadlateststable">Download VeloStrap's Latest Stable Release</button>
+            <button class="btn-main" id="downloadlatest">Download VeloStrap's Latest Release Build (Beta)</button>
         </div>
-        
+
         <p class="slogan">Lightweight and Fast.</p>
 
-        <a href="https://newpythonx.itch.io/velo-strap" class="manual-link" target="_blank">Manual Itch.io Download</a>
+        <a href="https://newpythonx.itch.io/velostrap-npx" class="manual-link" target="_blank" rel="noopener noreferrer">Manual Itch.io Download</a>
     </div>
 
     <script>
-        // --- GITHUB API DOWNLOAD LOGIC ---
-        document.getElementById('downloadBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('downloadBtn');
+        // --- GITHUB API DOWNLOAD LOGIC (stable) ---
+        document.getElementById('downloadlateststable').addEventListener('click', async () => {
+            const btn = document.getElementById('downloadlateststable');
             const originalText = btn.innerText;
-            btn.innerText = "Fetching Latest...";
-            
+            btn.innerText = "Fetching Latest Stable Release...";
+
             try {
                 const response = await fetch('https://api.github.com/repos/NewPythonX-NPX/VeloStrap/releases/latest');
                 const data = await response.json();
-                
+
                 if (data.assets && data.assets.length > 0) {
                     window.location.href = data.assets[0].browser_download_url;
                 } else {
@@ -164,7 +162,32 @@
                 console.error("Error fetching from GitHub:", error);
                 window.location.href = 'https://github.com/NewPythonX-NPX/VeloStrap/releases';
             }
-            
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+            }, 2000);
+        });
+
+        // --- GITHUB API DOWNLOAD LOGIC (latest) ---
+        document.getElementById('downloadlatest').addEventListener('click', async () => {
+            const btn = document.getElementById('downloadlatest');
+            const originalText = btn.innerText;
+            btn.innerText = "Fetching Latest Release...";
+
+            try {
+                const response = await fetch('https://api.github.com/repos/NewPythonX-NPX/VeloStrap/releases/latest/beta');
+                const data = await response.json();
+
+                if (data.assets && data.assets.length > 0) {
+                    window.location.href = data.assets[0].browser_download_url;
+                } else {
+                    window.location.href = data.html_url || 'https://github.com/NewPythonX-NPX/VeloStrap/releases';
+                }
+            } catch (error) {
+                console.error("Error fetching from GitHub:", error);
+                window.location.href = 'https://github.com/NewPythonX-NPX/VeloStrap/releases';
+            }
+
             setTimeout(() => {
                 btn.innerText = originalText;
             }, 2000);
